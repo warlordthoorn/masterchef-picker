@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <!-- Konva.js -->
+    <script src="https://unpkg.com/konva@8.3.0/konva.min.js"></script>
+      <!-- Boodstrap.css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      <!-- Boodstrap.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <meta charset="utf-8" />
+    <title>Masterchef content tierlist</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: rgb(0, 0, 0);
+      }
+
+      #stage-parent {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <select id="selector" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" disabled>
+        <option value="season-1">Season 1</option>
+        <option value="season-2">Season 2</option>
+        <option value="season-3" selected>Season 3</option>
+      </select>
+    <div id="stage-parent">
+      <div id="container"></div>
+    </div>
+    <script>
+      const all_files = {
+          "season-3": ['Anna-Rossi.jpg', 'Becky-Reams.jpg', 'Christine-Ha.jpg', 'Dave-Mack.jpg', 'David-Martinez.jpg', 'Felix-Fang.jpg', 'Frank-Mirando.jpg', 'Helene-Leeds.jpg', 'Josh-Marks.jpg', 'Michael-Chen.jpg', 'Mike-Hill.jpg', 'Monti-Carlo.jpg', 'Ryan-Umane.jpg', 'Samantha-De-Silva.jpg', 'Scott-Little.jpg', 'Stacey-Amagrande.jpg', 'Tali-Clavijo.jpg', 'Tanya-Noble.jpg']
+      }
+      let season = document.querySelector('#selector');
+
+      let width = window.innerWidth;
+      let height = window.innerHeight - 100; // todo remove
+
+      let stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+      });
+
+      let layerParticipant = new Konva.Layer();
+      let layer = new Konva.Layer();
+      let layer2 = new Konva.Layer();
+      stage.add(layer2)
+      stage.add(layer)
+
+      let imageObjg = new Image();
+      imageObjg.src ='assets/icons/outline_delete_outline_white_48dp.png'
+      imageObjg.onload = function () {
+        layer.add(new Konva.Image({
+            image: this,
+            height: height / 20,
+            width: height / 20,
+            y: height - ((height / 20)),
+            x: width / 100,
+            zIndex: 100 // gives an warning but it works ????
+        }));
+      };
+
+     let imageObj = new Image();
+      imageObj.src ='assets/background/bg.jpg'
+      imageObj.onload = function () {
+        layer2.add(new Konva.Image({
+          width: width / 5,
+          height: height / 5,
+          x: (maxWidthCircles * 2) - (width / 10),
+          y: (height / 2) - (height / 10),
+          image: this,
+      }))};
+      let maxWidthCircles = (width - (3 * (width / 10))) / 3
+      // draw the circles
+      let participantWidth = Math.round(height/10 * 0.90)
+      layer.add(new Konva.Circle({
+        x: maxWidthCircles,
+        y: height / 2,
+        radius: width / 6,
+        stroke: 'green',
+        strokeWidth: 2,
+      }))
+      layer.add(new Konva.Circle({
+        x: maxWidthCircles * 2,
+        y: height / 2,
+        radius: width / 6,
+        stroke: 'gold',
+        strokeWidth: 2,
+      }))
+      layer.add(new Konva.Circle({
+        x: maxWidthCircles * 3,
+        y: height / 2,
+        radius: width / 6,
+        stroke: 'red',
+        strokeWidth: 2,
+      }))
+      layer.add(new Konva.Text({
+        text: "Good",
+        fontSize: (width > 1000) ? ((width > 1205) ? 37 : 25) : (width > 700) ? 20 : (width > 500) ? 15 : 10,
+        fontFamily: 'Calibri',
+        fill: 'green',
+        y: height - (height / 10),
+        x: width - 2 * participantWidth,
+      }))
+      layer.add(new Konva.Text({
+        text: "Content",
+        fontSize: (width > 1000) ? ((width > 1205) ? 37 : 25) : (width > 700) ? 20 : (width > 500) ? 15 : 10,
+        fontFamily: 'Calibri',
+        fill: 'gold',
+        y: height - (height / 10) + (height / 30),
+        x: width - 2 * participantWidth,
+      }))
+      layer.add(new Konva.Text({
+        text: "Bad",
+        fontSize: (width > 1000) ? ((width > 1205) ? 37 : 25) : (width > 700) ? 20 : (width > 500) ? 15 : 10,
+        fontFamily: 'Calibri',
+        fill: 'red',
+        y: height - (height / 10) + (height / 15),
+        x: width - 2 * participantWidth,
+      }))
+      function drawParticipant(imageO, name, index, l) {
+        let stageWidth = width / 10
+        let stageHeight = height / 10
+        let participantWidth = Math.round(stageHeight * 0.90) // scale based on stageheight
+        let participant = new Konva.Group({
+            draggable: true,
+            x: width - (participantWidth * (2 - index % 2)),
+            y: (height / 10) * Math.round(8 - (index / 2)),
+        }); 
+
+        let strokeWidth = Math.ceil(stageHeight * 0.05) // scale based on stageheight
+        let thisImage = new Konva.Image({
+            image: imageO,
+            width: participantWidth,
+            height: stageHeight,
+            stroke: 'black',
+            strokeWidth:strokeWidth,
+        })
+        participant.add(thisImage);
+        
+        let barHeight = Math.ceil(stageHeight / 5) // 1/5 is bar will always be the same
+        let tempRect = new Konva.Rect({
+            fill: 'black',
+            width: participantWidth,
+            height: barHeight,
+            y: (stageHeight - barHeight) + 1,
+        });
+        participant.add(tempRect)
+        let cleanName = name.split(".")[0].split("-")[0] // only space for 9 chars
+        if (cleanName.length > 9) {
+          cleanName = cleanName.slice(3) + "..."
+        }
+        participant.add(new Konva.Text({
+            text: cleanName,
+            fontSize: (height > 800) ? ((height > 1005) ? 37 : 17) : (height > 500) ? 12 : (height > 300) ? 9 : 7,
+            fontFamily: 'Calibri',
+            fill: '#ffffff',
+            y: (stageHeight - barHeight) + 3,
+            x: ((9 - ((cleanName.length == 9) ? 7 : cleanName.length)) / 2 * (participantWidth / 10)),
+        }));
+
+         // add cursor styling
+         participant.on('mouseover', function () {
+          document.body.style.cursor = 'pointer';
+        });
+        participant.on('mouseout', function () {
+          document.body.style.cursor = 'default';
+        });
+        participant.on("dragmove", () => {
+          participant.y(Math.max(participant.y(), 0));
+          participant.x(Math.max(participant.x(), 0));
+          participant.y(Math.min(participant.y(), height)); // todo
+          participant.x(Math.min(participant.x(), width)); // todo
+        })
+
+        participant.on("dragend", () => {
+          if (participant.y() + thisImage.height() > height - ((height / 20))) {
+            participant.destroy()
+            document.body.style.cursor = 'default';
+          }
+        })
+
+        l.add(participant);
+      }
+
+      function setParticipants(season) {
+        let layerParticipant = new Konva.Layer()
+        for (let participant in all_files[season]) {
+          let participantName = all_files[season][participant];
+          let imageObj = new Image();
+              imageObj.onload = function () {
+              drawParticipant(this, participantName, participant, layerParticipant);
+          };
+          imageObj.src = 'assets/participants/season-3/' + all_files[season][participant];
+        }
+        stage.add(layerParticipant)
+        return layerParticipant
+      }
+      let l = setParticipants(season.value)
+
+      season.addEventListener("change", () => {
+        l.destroy();
+        l = setParticipants(season.value)
+      })
+
+
+    </script>
+  </body>
+</html>
