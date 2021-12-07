@@ -23,7 +23,7 @@
     </style>
   </head>
   <body>
-    <select id="selector" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" disabled>
+    <select id="selector" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
         <option value="season-1">Season 1</option>
         <option value="season-2">Season 2</option>
         <option value="season-3" selected>Season 3</option>
@@ -33,6 +33,8 @@
     </div>
     <script>
       const all_files = {
+          "season-1": ['Avis-White.jpg', 'David-lastname.jpg', 'Faruq-Jenkins.jpg', 'Jake-Gandolfo.jpg', 'Jenna-Hamiter.jpg', 'Kim-Slim-Dung-Hyunh.jpg', 'Lee-Knaz.jpg', 'Mike-Kim.jpg', 'Sharone-Hakman.jpg', 'Sheena-Zadeh.jpg', 'Sheetal-Bhagat.jpg', 'Tony-Carbone.jpg', 'Tracy-Nailor.jpg', 'Whitney-Miller.jpg'],
+          "season-2": ['Adrien-Nieto.jpg', 'Alejandra-Schrader.jpg', 'Alvin-Schultz.jpg', 'Angel-Moore-Soukkay.jpg', 'Benjamin-Starr.jpg', 'Christian-Collins.png', 'Christine-Corley.jpg', 'Derrick-Prince.jpg', 'Erryn-Cobb.jpg', 'Esther-Kang.jpg', 'Giuseppe-Morisco.jpg', 'Jennie-Kelley.jpg', 'Jennifer-Behm.jpg', 'Mark-Raffaeli.jpg', 'Max-Kramer.jpg', 'Suzy-Singh.jpg', 'Tony-Scruggs.jpg', 'Tracy-Kontos.jpg'],
           "season-3": ['Anna-Rossi.jpg', 'Becky-Reams.jpg', 'Christine-Ha.jpg', 'Dave-Mack.jpg', 'David-Martinez.jpg', 'Felix-Fang.jpg', 'Frank-Mirando.jpg', 'Helene-Leeds.jpg', 'Josh-Marks.jpg', 'Michael-Chen.jpg', 'Mike-Hill.jpg', 'Monti-Carlo.jpg', 'Ryan-Umane.jpg', 'Samantha-De-Silva.jpg', 'Scott-Little.jpg', 'Stacey-Amagrande.jpg', 'Tali-Clavijo.jpg', 'Tanya-Noble.jpg']
       }
       let season = document.querySelector('#selector');
@@ -196,7 +198,8 @@
               imageObj.onload = function () {
               drawParticipant(this, participantName, participant, layerParticipant);
           };
-          imageObj.src = 'assets/participants/season-3/' + all_files[season][participant];
+          console.log('assets/participants/' + season + "/" + all_files[season][participant])
+          imageObj.src = 'assets/participants/' + season + "/" + all_files[season][participant];
         }
         stage.add(layerParticipant)
         return layerParticipant
